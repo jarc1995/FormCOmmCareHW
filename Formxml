@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns:orx="http://openrosa.org/jr/xforms" xmlns="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:vellum="http://commcarehq.org/xforms/vellum">
+	<h:head>
+		<h:title>Encuesta</h:title>
+		<model>
+			<instance>
+				<data xmlns:jrm="http://dev.commcarehq.org/jr/xforms" xmlns="http://openrosa.org/formdesigner/C8D5C342-4B58-4AF4-B414-819AAE227E8F" uiVersion="1" version="1" name="Encuesta">
+					<p1 />
+					<p2 />
+					<p3 />
+					<question4 />
+					<question7 />
+					<question9 />
+				</data>
+			</instance>
+			<bind vellum:nodeset="#form/p1" nodeset="/data/p1" type="xsd:string" />
+			<bind vellum:nodeset="#form/p2" nodeset="/data/p2" type="xsd:int" constraint=". &gt;= 18" jr:constraintMsg="jr:itext('p2-constraintMsg')" required="true()" />
+			<bind vellum:nodeset="#form/p3" nodeset="/data/p3" required="false()" />
+			<bind vellum:nodeset="#form/question4" nodeset="/data/question4" type="xsd:int" vellum:relevant="#form/p3 = 'choice1'" relevant="/data/p3 = 'choice1'" required="true()" />
+			<bind vellum:nodeset="#form/question7" nodeset="/data/question7" vellum:relevant="#form/p3 = 'choice1'" relevant="/data/p3 = 'choice1'" vellum:calculate="#form/question4 * 11" calculate="/data/question4 * 11" />
+			<bind vellum:nodeset="#form/question9" nodeset="/data/question9" vellum:constraint="selected(#form/p3, 'choice1')" constraint="selected(/data/p3, 'choice1')" vellum:relevant="#form/p3 = 'choice1' and #form/p3 != 'choice2'" relevant="/data/p3 = 'choice1' and /data/p3 != 'choice2'" />
+			<itext>
+				<translation lang="en" default="">
+					<text id="p1-label">
+						<value>Cual es su nombre?</value>
+					</text>
+					<text id="p2-label">
+						<value>Cual es su edad?</value>
+					</text>
+					<text id="p2-constraintMsg">
+						<value>Usted tendría que tener 18 años o mas para proseguir.</value>
+					</text>
+					<text id="p3-label">
+						<value>Usted fuma cigarrillos?</value>
+					</text>
+					<text id="p3-choice1-label">
+						<value>Si</value>
+					</text>
+					<text id="p3-choice2-label">
+						<value>No</value>
+					</text>
+					<text id="question4-label">
+						<value>Cuantos cigarrillos consume al dia?</value>
+					</text>
+					<text id="question9-label">
+						<value>Usted pierde <output value="/data/question7" vellum:value="#form/question7" /> minutos de vida por consumir esa cantidad de cigarros al dia.</value>
+					</text>
+				</translation>
+			</itext>
+		</model>
+	</h:head>
+	<h:body>
+		<input vellum:ref="#form/p1" ref="/data/p1">
+			<label ref="jr:itext('p1-label')" />
+		</input>
+		<input vellum:ref="#form/p2" ref="/data/p2">
+			<label ref="jr:itext('p2-label')" />
+			<alert ref="jr:itext('p2-constraintMsg')" />
+		</input>
+		<select1 vellum:ref="#form/p3" ref="/data/p3">
+			<label ref="jr:itext('p3-label')" />
+			<item>
+				<label ref="jr:itext('p3-choice1-label')" />
+				<value>choice1</value>
+			</item>
+			<item>
+				<label ref="jr:itext('p3-choice2-label')" />
+				<value>choice2</value>
+			</item>
+		</select1>
+		<input vellum:ref="#form/question4" ref="/data/question4">
+			<label ref="jr:itext('question4-label')" />
+		</input>
+		<trigger vellum:ref="#form/question9" ref="/data/question9" appearance="minimal">
+			<label ref="jr:itext('question9-label')" />
+		</trigger>
+	</h:body>
+</h:html>
